@@ -11,7 +11,5 @@
         <p className="text-sm text-zinc-300">Convide seus amigos e planeje sua próxima viagem!</p>
       </div>
     </header>
-
-    <h1 class="text-3xl font-bold underline">Home</h1>
   </section>
 </template>
