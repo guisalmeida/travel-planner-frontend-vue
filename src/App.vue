@@ -1,9 +1,9 @@
-<script setup lang="ts">
-import HomeView from './views/HomeView.vue'
-</script>
-
 <template>
-  <HomeView></HomeView>
+  <CreateTrip />
 </template>
+
+<script setup lang="ts">
+import CreateTrip from './views/CreateTrip.vue'
+</script>
 
 <style scoped></style>
