@@ -13,7 +13,7 @@
       <span class="text-md text-zinc-400 w-56">{{ formatRangeDate }}</span>
     </button>
 
-    <InputButton @Click="toogleGuestListShow">
+    <InputButton @click="toogleGuestListShow">
       Continuar
       <ArrowRight class="size-5" />
     </InputButton>
@@ -53,19 +53,19 @@ const formatRangeDate = computed(() => {
   const startDate = new Intl.DateTimeFormat('pt-BR', {
     year: 'numeric',
     month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
+    day: '2-digit'
+    // hour: '2-digit',
+    // minute: '2-digit',
+    // hour12: false
   }).format(date.value[0])
 
   const endDate = new Intl.DateTimeFormat('pt-BR', {
     year: 'numeric',
     month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
+    day: '2-digit'
+    // hour: '2-digit',
+    // minute: '2-digit',
+    // hour12: false
   }).format(date.value[1])
 
   return `${startDate} - ${endDate}`
