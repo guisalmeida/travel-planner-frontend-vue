@@ -1,10 +1,10 @@
 <template>
   <section class="h-screen w-full flex flex-col align items-center justify-between py-8">
-    <AppHeader />
-
-    <main class="flex flex-col gap-4 my-10 max-w-screen-md">
+    <AppHeader>
       <TripInput />
-    </main>
+    </AppHeader>
+
+    <main class="flex flex-col gap-4 my-10 max-w-screen-md"></main>
 
     <AppFooter />
   </section>

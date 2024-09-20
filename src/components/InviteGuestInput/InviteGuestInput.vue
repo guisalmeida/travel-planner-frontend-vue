@@ -49,7 +49,7 @@
 import { ref } from 'vue'
 import { ArrowRight, UserRoundPlus } from 'lucide-vue-next'
 import InputButton from '../InputButton/InputButton.vue'
-import InviteGuestModal from '../InvestGuestModal/InviteGuestModal.vue'
+import InviteGuestModal from '../InviteGuestModal/InviteGuestModal.vue'
 import ConfirmTripModal from '../ConfirmTripModal/ConfirmTripModal.vue'
 
 defineProps<{

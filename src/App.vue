@@ -1,9 +1,7 @@
 <template>
-  <CreateTrip />
+  <RouterView />
 </template>
 
 <script setup lang="ts">
-import CreateTrip from './views/CreateTrip.vue'
+import { RouterView } from 'vue-router'
 </script>
-
-<style scoped></style>
