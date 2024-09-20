@@ -7,14 +7,17 @@
       class="bg-transparent text-lg text-zinc-400 placeholder-zinc-400 flex-1"
       placeholder="Para onde você vai?"
       :disabled="false"
-      v-model="destination"
+      v-bind="$attrs"
+      :value="modelValue"
+      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { MapPin } from 'lucide-vue-next'
 
-const destination = ref('')
+defineProps<{
+  modelValue: string
+}>()
 </script>

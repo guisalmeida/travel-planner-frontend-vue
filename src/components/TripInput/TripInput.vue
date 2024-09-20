@@ -2,7 +2,7 @@
   <div
     class="h-16 bg-zinc-900 w-full rounded-xl px-4 shadow-shape flex items-center justify-between gap-5"
   >
-    <DestinationInput />
+    <DestinationInput v-model="destination" />
 
     <button
       @click="toogleDatePicker(true)"
@@ -17,29 +17,42 @@
       Continuar
       <ArrowRight class="size-5" />
     </InputButton>
-
-    <ModalOverlay v-if="IsDatePickerOpen" :toogleFn="toogleDatePicker">
-      <div className="shadow-shape bg-zinc-900 py-5 px-6 rounded-xl space-y-5">
-        <h3 className="text-lg font-semibold">Selecione as datas:</h3>
-        <VueDatePicker v-model="date" :dark="true" :min-date="new Date()" inline auto-apply range />
-      </div>
-    </ModalOverlay>
   </div>
+
+  <ModalOverlay v-if="IsDatePickerOpen" :toogleFn="toogleDatePicker">
+    <div class="shadow-shape bg-zinc-900 py-5 px-6 rounded-xl space-y-5">
+      <h3 class="text-lg font-semibold">Selecione as datas:</h3>
+      <VueDatePicker v-model="date" :dark="true" :min-date="new Date()" inline auto-apply range />
+    </div>
+  </ModalOverlay>
+
+  <InviteGuestInput
+    v-if="IsGuestListShow"
+    :destination="destination"
+    :dateRange="formatRangeDate"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { ArrowRight, Calendar } from 'lucide-vue-next'
 
 import DestinationInput from '../DestinationInput/DestinationInput.vue'
 import InputButton from '@/components/InputButton/InputButton.vue'
 import ModalOverlay from '../ModalOverlay/ModalOverlay.vue'
+import InviteGuestInput from '@/components/InviteGuestInput/InviteGuestInput.vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
 
 import '@vuepic/vue-datepicker/dist/main.css'
 
 const date = ref<Date[]>()
+const destination = ref('')
 const IsDatePickerOpen = ref(false)
+const IsGuestListShow = ref(false)
+
+function toogleGuestListShow() {
+  IsGuestListShow.value = !IsGuestListShow.value
+}
 
 function toogleDatePicker(value: boolean) {
   IsDatePickerOpen.value = value
@@ -71,7 +84,7 @@ const formatRangeDate = computed(() => {
   return `${startDate} - ${endDate}`
 })
 
-defineProps<{
-  toogleGuestListShow: () => void
-}>()
+watch(destination, (newDest) => {
+  console.log(`Destination is ${newDest}`)
+})
 </script>

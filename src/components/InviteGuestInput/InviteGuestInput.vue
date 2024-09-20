@@ -21,18 +21,26 @@
       </button>
     </div>
 
-    <InputButton>
+    <InputButton @click="toogleConfirmModal(true)">
       Confirmar viagem
       <ArrowRight class="size-5" />
     </InputButton>
 
     <InviteGuestModal
-      v-if="IsGuestModalOpen"
+      v-if="isGuestModalOpen"
       :addToGuestList="addToGuestList"
       :toogleGuestModal="toogleGuestModal"
       :guestList="guestList"
       :removeFromGuestList="removeFromGuestList"
       v-model="email"
+    />
+
+    <ConfirmTripModal
+      v-if="isConfirmModalOpen"
+      :toogleConfirmModal="toogleConfirmModal"
+      :guestList="guestList"
+      :destination="destination"
+      :dateRange="dateRange"
     />
   </div>
 </template>
@@ -42,11 +50,17 @@ import { ref } from 'vue'
 import { ArrowRight, UserRoundPlus } from 'lucide-vue-next'
 import InputButton from '../InputButton/InputButton.vue'
 import InviteGuestModal from '../InvestGuestModal/InviteGuestModal.vue'
+import ConfirmTripModal from '../ConfirmTripModal/ConfirmTripModal.vue'
+
+defineProps<{
+  destination: string
+  dateRange: string
+}>()
 
 const email = ref('')
 const guestList = ref<string[]>([])
-
-const IsGuestModalOpen = ref(false)
+const isGuestModalOpen = ref(false)
+const isConfirmModalOpen = ref(false)
 
 const addToGuestList = (guestEmail: string) => {
   guestList.value.push(guestEmail)
@@ -55,12 +69,15 @@ const addToGuestList = (guestEmail: string) => {
 
 const removeFromGuestList = (email: string) => {
   console.log('remove')
-
   guestList.value = guestList.value.filter((guestEmail) => guestEmail !== email)
   console.log(guestList.value)
 }
 
-function toogleGuestModal(value: boolean) {
-  IsGuestModalOpen.value = value
+const toogleGuestModal = (value: boolean) => {
+  isGuestModalOpen.value = value
+}
+
+const toogleConfirmModal = (value: boolean) => {
+  isConfirmModalOpen.value = value
 }
 </script>
