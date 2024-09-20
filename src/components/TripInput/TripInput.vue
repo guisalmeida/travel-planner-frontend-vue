@@ -2,22 +2,33 @@
   <div
     class="h-16 bg-zinc-900 w-full rounded-xl px-4 shadow-shape flex items-center justify-between gap-5"
   >
-    <DestinationInput v-model="destination" />
+    <DestinationInput v-model="destination" :disabled="IsGuestListShow" />
 
     <button
       @click="toogleDatePicker(true)"
-      :disabled="false"
+      :disabled="IsGuestListShow"
       class="flex gap-2 items-center after:block after:w-px after:h-6 after:bg-zinc-400 text-left"
     >
       <Calendar class="size-5 text-zinc-400" />
       <span class="text-md text-zinc-400 w-56">{{ formatRangeDate }}</span>
     </button>
 
-    <InputButton @click="toogleGuestListShow">
+    <InputButton @click="toogleGuestListShow" v-if="!IsGuestListShow">
       Continuar
       <ArrowRight class="size-5" />
     </InputButton>
+
+    <InputButton @click="toogleGuestListShow" v-else colorVariant="secondary">
+      Alterar local/data
+      <Settings2 class="size-5" />
+    </InputButton>
   </div>
+
+  <InviteGuestInput
+    v-if="IsGuestListShow"
+    :destination="destination"
+    :dateRange="formatRangeDate"
+  />
 
   <ModalOverlay v-if="IsDatePickerOpen" :toogleFn="toogleDatePicker">
     <div class="shadow-shape bg-zinc-900 py-5 px-6 rounded-xl space-y-5">
@@ -25,17 +36,11 @@
       <VueDatePicker v-model="date" :dark="true" :min-date="new Date()" inline auto-apply range />
     </div>
   </ModalOverlay>
-
-  <InviteGuestInput
-    v-if="IsGuestListShow"
-    :destination="destination"
-    :dateRange="formatRangeDate"
-  />
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { ArrowRight, Calendar } from 'lucide-vue-next'
+import { ArrowRight, Calendar, Settings2 } from 'lucide-vue-next'
 
 import DestinationInput from '../DestinationInput/DestinationInput.vue'
 import InputButton from '@/components/InputButton/InputButton.vue'
