@@ -4,8 +4,8 @@
       <div class="space-y-2">
         <h3 class="text-lg font-semibold">Confirmar criação da viagem</h3>
         <p class="text-zinc-400 text-sm">
-          Para concluir a criação da viagem para {{ destination }} nas datas de {{ dateRange }},
-          preencha seus dados abaixo:
+          Para concluir a criação da viagem para {{ store.state.currentTrip.destination }} nas datas
+          de {{ store.getters.formatedDateRange() }}, preencha seus dados abaixo:
         </p>
       </div>
 
@@ -17,7 +17,7 @@
           <input
             type="text"
             name="ownerName"
-            v-model="ownerName"
+            v-model="store.state.currentTrip.ownerName"
             class="bg-transparent text-lg placeholder-zinc-400 flex-1 text-zinc-400"
             placeholder="Digite seu nome completo"
           />
@@ -30,7 +30,7 @@
           <input
             type="email"
             name="ownerEmail"
-            v-model="ownerEmail"
+            v-model="store.state.currentTrip.ownerEmail"
             class="bg-transparent text-lg placeholder-zinc-400 flex-1 text-zinc-400"
             placeholder="Digite seu e-mail pessoal"
           />
@@ -44,15 +44,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import store from '@/store'
 import { Mail, User } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 
 import ModalOverlay from '../ModalOverlay/ModalOverlay.vue'
 import InputButton from '../InputButton/InputButton.vue'
 
-const ownerName = ref('')
-const ownerEmail = ref('')
 const router = useRouter()
 
 const confirmTrip = (e: any) => {
@@ -63,8 +61,5 @@ const confirmTrip = (e: any) => {
 
 defineProps<{
   toogleConfirmModal: (value: boolean) => void
-  destination: string
-  dateRange: string
-  guestList: string[]
 }>()
 </script>

@@ -5,11 +5,11 @@
     <div class="flex gap-2 items-center flex-1 after:block after:w-px after:h-6 after:bg-zinc-400">
       <UserRoundPlus class="size-5 text-zinc-400" />
       <button
-        v-if="guestList.length > 0"
+        v-if="store.state.currentTrip.participants.length > 0"
         class="bg-transparent text-lg placeholder-zinc-400 flex-1 text-zinc-400 text-left"
         @click="toogleGuestModal(true)"
       >
-        {{ guestList.length }} pessoa(s) na viagem?
+        {{ store.state.currentTrip.participants.length }} pessoa(s) na viagem?
       </button>
 
       <button
@@ -30,18 +30,12 @@
       v-if="isGuestModalOpen"
       :addToGuestList="addToGuestList"
       :toogleGuestModal="toogleGuestModal"
-      :guestList="guestList"
       :removeFromGuestList="removeFromGuestList"
-      v-model="email"
+      v-model:name="participantName"
+      v-model:email="participantEmail"
     />
 
-    <ConfirmTripModal
-      v-if="isConfirmModalOpen"
-      :toogleConfirmModal="toogleConfirmModal"
-      :guestList="guestList"
-      :destination="destination"
-      :dateRange="dateRange"
-    />
+    <ConfirmTripModal v-if="isConfirmModalOpen" :toogleConfirmModal="toogleConfirmModal" />
   </div>
 </template>
 
@@ -51,26 +45,21 @@ import { ArrowRight, UserRoundPlus } from 'lucide-vue-next'
 import InputButton from '../InputButton/InputButton.vue'
 import InviteGuestModal from '../InviteGuestModal/InviteGuestModal.vue'
 import ConfirmTripModal from '../ConfirmTripModal/ConfirmTripModal.vue'
+import store, { type Participant } from '@/store'
 
-defineProps<{
-  destination: string
-  dateRange: string
-}>()
-
-const email = ref('')
-const guestList = ref<string[]>([])
+const participantName = ref('')
+const participantEmail = ref('')
 const isGuestModalOpen = ref(false)
 const isConfirmModalOpen = ref(false)
 
-const addToGuestList = (guestEmail: string) => {
-  guestList.value.push(guestEmail)
-  email.value = ''
+const addToGuestList = (participant: Participant) => {
+  store.mutations.addParticipant(participant)
+  participantName.value = ''
+  participantEmail.value = ''
 }
 
-const removeFromGuestList = (email: string) => {
-  console.log('remove')
-  guestList.value = guestList.value.filter((guestEmail) => guestEmail !== email)
-  console.log(guestList.value)
+const removeFromGuestList = (participantId: string) => {
+  store.mutations.removeParticipant(participantId)
 }
 
 const toogleGuestModal = (value: boolean) => {

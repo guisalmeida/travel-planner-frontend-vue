@@ -4,18 +4,18 @@
 
     <div class="space-y-5">
       <div
-        v-for="(guest, index) in guestList"
+        v-for="(guest, index) in store.state.currentTrip.participants"
         class="flex items-center justify-between hover:bg-zinc-900 rounded py-1 px-2"
         :key="index"
       >
         <div class="space-y-1.5">
-          <p class="text-zinc-100 font-medium">xxx</p>
-          <span class="text-zinc-400 text-sm truncate block"> {{ guest }} </span>
+          <p class="text-zinc-100 font-medium">{{ guest.name ? guest.name : 'Guest ' + index }}</p>
+          <span class="text-zinc-400 text-sm truncate block"> {{ guest.email }} </span>
         </div>
 
-        <CircleCheck class="size-5 text-sky-400 flex-shrink-0" />
+        <CircleCheck class="size-5 text-sky-400 flex-shrink-0" v-if="guest.is_confirmed" />
 
-        <!-- <CircleDashed class="size-5 text-zinc-400 flex-shrink-0" /> -->
+        <CircleDashed class="size-5 text-zinc-400 flex-shrink-0" v-else />
       </div>
     </div>
 
@@ -28,9 +28,9 @@
       v-if="isGuestModalOpen"
       :addToGuestList="addToGuestList"
       :toogleGuestModal="toogleGuestModal"
-      :guestList="guestList"
       :removeFromGuestList="removeFromGuestList"
-      v-model="email"
+      v-model:name="participantName"
+      v-model:email="participantEmail"
     />
   </div>
 </template>
@@ -41,22 +41,23 @@ import { UserCog, CircleCheck, CircleDashed } from 'lucide-vue-next'
 import InputButton from '../InputButton/InputButton.vue'
 import InviteGuestModal from '@/components/InviteGuestModal/InviteGuestModal.vue'
 
+import store, { type Participant } from '@/store'
+
 const isGuestModalOpen = ref(false)
-const email = ref('')
-const guestList = ref<string[]>([])
+const participantName = ref('')
+const participantEmail = ref('')
 
 function toogleGuestModal(value: boolean) {
   isGuestModalOpen.value = value
 }
 
-const addToGuestList = (guestEmail: string) => {
-  guestList.value.push(guestEmail)
-  email.value = ''
+const addToGuestList = (participant: Participant) => {
+  store.mutations.addParticipant(participant)
+  participantName.value = ''
+  participantEmail.value = ''
 }
 
-const removeFromGuestList = (email: string) => {
-  console.log('remove')
-  guestList.value = guestList.value.filter((guestEmail) => guestEmail !== email)
-  console.log(guestList.value)
+const removeFromGuestList = (participantId: string) => {
+  store.mutations.removeParticipant(participantId)
 }
 </script>
