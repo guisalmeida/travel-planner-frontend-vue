@@ -37,25 +37,45 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from 'vue-router'
+import { Tag, Calendar } from 'lucide-vue-next'
 import InputButton from '../InputButton/InputButton.vue'
 import ModalOverlay from '../ModalOverlay/ModalOverlay.vue'
-import { Tag, Calendar } from 'lucide-vue-next'
+import store, { type Activity } from '@/store'
+
+const route = useRoute()
+const tripId = route.params.tripId
 
 function createActivity(e: any) {
   e.preventDefault()
 
   const data = new FormData(e.currentTarget)
-  const activity = data.get('activity')
+  const activityTitle = data.get('activity')
   const activityTime = data.get('acitivity-time')
-
   const options = {
-    title: activity,
-    occurs_at: activityTime
+    title: activityTitle?.toString() || '',
+    occurs_at: activityTime?.toString() || ''
   }
 
-  console.log(options)
+  fetch(`http://localhost:3333/trips/${tripId}/activities`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(options)
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      const activity: Activity = {
+        ...options,
+        id: data.activityId,
+        trip_id: tripId as string
+      }
 
-  // await api.post(`/trips/${tripId}/activities`, options);
+      store.mutations.addActivity(activity)
+    })
+    .catch((err) => console.error(err))
+
   props.toogleCreateActivityModal(false)
 }
 

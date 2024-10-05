@@ -38,28 +38,48 @@
 </template>
 
 <script setup lang="ts">
+import store, { type Link } from '@/store'
+import { useRoute } from 'vue-router'
+import { Tag, Link as LinkIcon } from 'lucide-vue-next'
 import InputButton from '../InputButton/InputButton.vue'
 import ModalOverlay from '../ModalOverlay/ModalOverlay.vue'
-import { Tag, Link as LinkIcon } from 'lucide-vue-next'
-import type { Link } from '../LinksList/LinksList.vue'
+
+const route = useRoute()
+const tripId = route.params.tripId
 
 function createLink(e: any) {
   e.preventDefault()
+
   const data = new FormData(e.currentTarget)
   const linkTitle = data.get('link-title')
   const linkUrl = data.get('link-url')
 
   const options = {
-    id: (Math.random() * 10).toString(),
     title: linkTitle?.toString() || '',
     url: linkUrl?.toString() || ''
   }
 
   console.log(options)
 
-  props.addToLinkList(options)
+  fetch(`http://localhost:3333/trips/${tripId}/links`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(options)
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      const link: Link = {
+        ...options,
+        id: data.linkId,
+        trip_id: tripId as string
+      }
 
-  // await api.post(`/trips/${tripId}/links`, options);
+      store.mutations.addLink(link)
+    })
+    .catch((err) => console.error(err))
+
   props.toogleCreateLinkModal(false)
 }
 

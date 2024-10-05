@@ -53,10 +53,28 @@ import InputButton from '../InputButton/InputButton.vue'
 
 const router = useRouter()
 
-const confirmTrip = (e: any) => {
+const confirmTrip = (e: Event) => {
   e.preventDefault()
 
-  router.push(`/trips/123`)
+  const newTrip = {
+    destination: store.state.currentTrip.destination,
+    starts_at: store.state.currentTrip.starts_at,
+    ends_at: store.state.currentTrip.ends_at,
+    owner_name: store.state.currentTrip.ownerName,
+    owner_email: store.state.currentTrip.ownerEmail,
+    emails_to_invite: store.state.currentTrip.participants.map((participant) => participant.email)
+  }
+
+  fetch('http://localhost:3333/trips', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newTrip)
+  })
+    .then((res) => res.json())
+    .then((data) => router.push(`/trips/${data.tripId}`))
+    .catch((err) => console.error(err))
 }
 
 defineProps<{
