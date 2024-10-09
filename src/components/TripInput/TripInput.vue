@@ -10,7 +10,7 @@
       class="flex gap-2 items-center after:block after:w-px after:h-6 after:bg-zinc-400 text-left"
     >
       <Calendar class="size-5 text-zinc-400" />
-      <span class="text-md text-zinc-400 w-56">{{ store.getters.formatedDateRange() }}</span>
+      <span class="text-md text-zinc-400 w-56">{{ store.getters.formatedDateRange }}</span>
     </button>
 
     <InputButton @click="toogleGuestListShow" v-if="!IsGuestListShow">
@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import store from '@/store'
+import { store } from '@/store'
 import { ArrowRight, Calendar, Settings2 } from 'lucide-vue-next'
 
 import DestinationInput from '../DestinationInput/DestinationInput.vue'
@@ -68,8 +68,8 @@ function toogleDatePicker(value: boolean) {
 
 watch(dateRange, (newDateRange) => {
   if (newDateRange && newDateRange[0] && newDateRange[1]) {
-    store.mutations.setStartDate(new Date(newDateRange[0]).toISOString())
-    store.mutations.setEndDate(new Date(newDateRange[1]).toISOString())
+    store.commit('setStartDate', new Date(newDateRange[0]).toISOString())
+    store.commit('setEndDate', new Date(newDateRange[1]).toISOString())
   }
 })
 </script>

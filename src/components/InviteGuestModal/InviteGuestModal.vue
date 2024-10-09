@@ -16,7 +16,7 @@
         >
           <span class="text-zinc-300 text-base">{{ participant.email }}</span>
           <button
-            @click="store.mutations.removeParticipant(participant.id as string)"
+            @click="store.commit('removeParticipant', participant.id as string)"
             class="size-5 rounded-sm hover:bg-zinc-700 flex items-center justify-center"
           >
             <X class="text-zinc-300 size-4" />
@@ -74,7 +74,7 @@ import { X, AtSign, ArrowRight, UserRoundPlus } from 'lucide-vue-next'
 import ModalOverlay from '../ModalOverlay/ModalOverlay.vue'
 import InputButton from '../InputButton/InputButton.vue'
 
-import store, { type Participant } from '@/store'
+import { store, type Participant } from '@/store'
 
 defineProps<{
   name: string

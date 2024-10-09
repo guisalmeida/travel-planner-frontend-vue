@@ -27,7 +27,7 @@ import GuestsList from '@/components/GuestsList/GuestsList.vue'
 import ActivitiesList from '@/components/ActivitiesList/ActivitiesList.vue'
 import { useRoute } from 'vue-router'
 
-import store from '@/store'
+import { store } from '@/store'
 
 const route = useRoute()
 
@@ -36,7 +36,7 @@ const tripId = route.params.tripId
 const loadTrip = async () => {
   await fetch(`http://localhost:3333/trips/${tripId}`)
     .then((res) => res.json())
-    .then((data) => store.mutations.updateTrip(data.trip))
+    .then((data) => store.commit('updateTrip', data.trip))
     .catch((err) => console.log(err))
 }
 

@@ -41,7 +41,7 @@ import { useRoute } from 'vue-router'
 import { Tag, Calendar } from 'lucide-vue-next'
 import InputButton from '../InputButton/InputButton.vue'
 import ModalOverlay from '../ModalOverlay/ModalOverlay.vue'
-import store, { type Activity } from '@/store'
+import { store, type Activity } from '@/store'
 
 const route = useRoute()
 const tripId = route.params.tripId
@@ -72,7 +72,7 @@ function createActivity(e: any) {
         trip_id: tripId as string
       }
 
-      store.mutations.addActivity(activity)
+      store.commit('addActivity', activity)
     })
     .catch((err) => console.error(err))
 

@@ -5,7 +5,7 @@
         <h3 class="text-lg font-semibold">Confirmar criação da viagem</h3>
         <p class="text-zinc-400 text-sm">
           Para concluir a criação da viagem para {{ store.state.currentTrip.destination }} nas datas
-          de {{ store.getters.formatedDateRange() }}, preencha seus dados abaixo:
+          de {{ store.getters.formatedDateRange }}, preencha seus dados abaixo:
         </p>
       </div>
 
@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import store from '@/store'
+import { store } from '@/store'
 import { Mail, User } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 

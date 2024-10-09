@@ -49,7 +49,7 @@ import InputButton from '../InputButton/InputButton.vue'
 import { CircleCheck, Plus } from 'lucide-vue-next'
 import CreateActivityModal from '../CreateActivityModal/CreateActivityModal.vue'
 
-import store from '@/store'
+import { store } from '@/store'
 
 const showCreateActivityModal = ref(false)
 const toogleCreateActivityModal = (value: boolean) => {

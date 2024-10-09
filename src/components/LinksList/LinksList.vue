@@ -37,7 +37,7 @@ import { ref } from 'vue'
 import CreateLinkModal from '../CreateLinkModal/CreateLinkModal.vue'
 import InputButton from '../InputButton/InputButton.vue'
 import { Plus, SquareArrowOutUpRight } from 'lucide-vue-next'
-import store, { type Link } from '@/store'
+import { store, type Link } from '@/store'
 
 const showCreateLinkModal = ref(false)
 const toogleCreateLinkModal = (value: boolean) => {
@@ -45,10 +45,10 @@ const toogleCreateLinkModal = (value: boolean) => {
 }
 
 const addToLinkList = (link: Link) => {
-  store.mutations.addLink(link)
+  store.commit('addLink', link)
 }
 
 const removeFromLinkList = (linkId: string) => {
-  store.mutations.removeLink(linkId)
+  store.commit('removeLink', linkId)
 }
 </script>
