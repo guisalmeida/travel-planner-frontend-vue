@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import store, { type Link } from '@/store'
+import { store, type Link } from '@/store'
 import { useRoute } from 'vue-router'
 import { Tag, Link as LinkIcon } from 'lucide-vue-next'
 import InputButton from '../InputButton/InputButton.vue'
@@ -76,7 +76,7 @@ function createLink(e: any) {
         trip_id: tripId as string
       }
 
-      store.mutations.addLink(link)
+      store.commit('addLink', link)
     })
     .catch((err) => console.error(err))
 

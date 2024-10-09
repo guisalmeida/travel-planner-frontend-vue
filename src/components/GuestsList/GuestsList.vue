@@ -41,7 +41,7 @@ import { UserCog, CircleCheck, CircleDashed } from 'lucide-vue-next'
 import InputButton from '../InputButton/InputButton.vue'
 import InviteGuestModal from '@/components/InviteGuestModal/InviteGuestModal.vue'
 
-import store, { type Participant } from '@/store'
+import { store, type Participant } from '@/store'
 
 const isGuestModalOpen = ref(false)
 const participantName = ref('')
@@ -52,12 +52,12 @@ function toogleGuestModal(value: boolean) {
 }
 
 const addToGuestList = (participant: Participant) => {
-  store.mutations.addParticipant(participant)
+  store.commit('addParticipant', participant)
   participantName.value = ''
   participantEmail.value = ''
 }
 
 const removeFromGuestList = (participantId: string) => {
-  store.mutations.removeParticipant(participantId)
+  store.commit('removeParticipant', participantId)
 }
 </script>

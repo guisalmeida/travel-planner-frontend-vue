@@ -45,7 +45,7 @@ import { ArrowRight, UserRoundPlus } from 'lucide-vue-next'
 import InputButton from '../InputButton/InputButton.vue'
 import InviteGuestModal from '../InviteGuestModal/InviteGuestModal.vue'
 import ConfirmTripModal from '../ConfirmTripModal/ConfirmTripModal.vue'
-import store, { type Participant } from '@/store'
+import { store, type Participant } from '@/store'
 
 const participantName = ref('')
 const participantEmail = ref('')
@@ -53,13 +53,13 @@ const isGuestModalOpen = ref(false)
 const isConfirmModalOpen = ref(false)
 
 const addToGuestList = (participant: Participant) => {
-  store.mutations.addParticipant(participant)
+  store.commit('addParticipant', participant)
   participantName.value = ''
   participantEmail.value = ''
 }
 
 const removeFromGuestList = (participantId: string) => {
-  store.mutations.removeParticipant(participantId)
+  store.commit('removeParticipant', participantId)
 }
 
 const toogleGuestModal = (value: boolean) => {
